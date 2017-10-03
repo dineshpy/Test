@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sensors xmlns="http://xmlns.oracle.com/bpel/sensor">
+    <sensor sensorName="Status" kind="reference" target="undefined" filter="" xmlns:tns="http://HCM.Sobha.com/">
+        <referenceConfig reference="FusionHCM" expression="$out.parameters/tns:pushDataOnTOHCMResponse/return" operation="pushDataOnTOHCM" outputDataType="string" outputNamespace="http://www.w3.org/2001/XMLSchema"/>
+    </sensor>
+</sensors>

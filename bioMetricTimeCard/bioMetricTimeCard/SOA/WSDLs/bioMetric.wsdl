@@ -1,0 +1,59 @@
+<wsdl:definitions
+     name="bioMetric"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BioMetric/bioMetricTimeCard/bioMetric"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BioMetric/bioMetricTimeCard/bioMetric"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:pc="http://xmlns.oracle.com/pcbpel/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/bioMetric"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="bioMetric_plt" >
+    <plt:role name="bioMetric_role" >
+      <plt:portType name="tns:bioMetric_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+  <plt:partnerLinkType name="bioMetric_plt" >
+    <plt:role name="bioMetric_role" >
+      <plt:portType name="tns:bioMetric_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+  <plt:partnerLinkType name="bioMetric_plt" >
+    <plt:role name="bioMetric_role" >
+      <plt:portType name="tns:bioMetric_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+  <plt:partnerLinkType name="bioMetric_plt" >
+    <plt:role name="bioMetric_role" >
+      <plt:portType name="tns:bioMetric_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+  <plt:partnerLinkType name="bioMetric_plt" >
+    <plt:role name="bioMetric_role" >
+      <plt:portType name="tns:bioMetric_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+  <plt:partnerLinkType name="bioMetric_plt" >
+    <plt:role name="bioMetric_role" >
+      <plt:portType name="tns:bioMetric_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+  <plt:partnerLinkType name="bioMetric_plt" >
+    <plt:role name="bioMetric_role" >
+      <plt:portType name="tns:bioMetric_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/bioMetric" schemaLocation="../Schemas/bioMetric_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="TB_TimeLogCollection_msg">
+        <wsdl:part name="TB_TimeLogCollection" element="top:TB_TimeLogCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="bioMetric_ptt">
+        <wsdl:operation name="receive">
+            <wsdl:input message="tns:TB_TimeLogCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

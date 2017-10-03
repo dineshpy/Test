@@ -1,0 +1,101 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer
+
+  Created: Wed Aug 23 19:04:23 IST 2017
+  Author:  Aravind
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="bioMetricToHCM"
+               targetNamespace="http://xmlns.oracle.com/BioMetric/bioMetricTimeCard/bioMetricToHCM"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/BioMetric/bioMetricTimeCard/bioMetricToHCM"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/BioMetric/bioMetricTimeCard/bioMetric"
+         xmlns:ns2="http://HCM.Sobha.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/top/bioMetric"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/BioMetric/bioMetricTimeCard/updateStatus"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/updateStatus"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer">
+
+  <!--
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC
+     Set of activities coordinating the flow of messages across the
+     services integrated within this business process
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/BioMetric/bioMetricTimeCard/bioMetric"
+          location="../WSDLs/bioMetric.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="bioMetric" partnerLinkType="ns1:bioMetric_plt" myRole="bioMetric_role"/>
+    <partnerLink name="FusionHCM" partnerLinkType="ns2:FusionHCM" partnerRole="CreateTimeCard"/>
+    <partnerLink name="updateStatus" partnerLinkType="ns4:updateStatus_plt" partnerRole="updateStatus_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive1_receive_InputVariable" messageType="ns1:TB_TimeLogCollection_msg"/>
+    <variable name="HCM_Req_Data" messageType="ns2:pushDataOnTOHCM"/>
+    <variable name="HCM_Res_Data" messageType="ns2:pushDataOnTOHCMResponse"/>
+    <variable name="StatusVariable" messageType="ns4:updateStatusInput_msg"/>
+  </variables>
+  <sequence name="main">
+    <receive name="getBioMetricData" createInstance="yes" partnerLink="bioMetric" portType="ns1:bioMetric_ptt"
+             operation="receive" variable="Receive1_receive_InputVariable"/>
+    <assign name="MapBiometricData">
+      <copy>
+        <from>$Receive1_receive_InputVariable.TB_TimeLogCollection/ns3:TB_TimeLog/ns3:id</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$HCM_Req_Data.parameters/reqID</to>
+      </copy>
+      <copy>
+        <from>$Receive1_receive_InputVariable.TB_TimeLogCollection/ns3:TB_TimeLog/ns3:UserID</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$HCM_Req_Data.parameters/personID</to>
+      </copy>
+      <copy>
+        <from>$Receive1_receive_InputVariable.TB_TimeLogCollection/ns3:TB_TimeLog/ns3:TimeIn</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$HCM_Req_Data.parameters/inTime</to>
+      </copy>
+      <copy>
+        <from>xp20:current-dateTime()</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$HCM_Req_Data.parameters/reqTime</to>
+      </copy>
+      <copy>
+        <from>$Receive1_receive_InputVariable.TB_TimeLogCollection/ns3:TB_TimeLog/ns3:TimeOut</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$HCM_Req_Data.parameters/outTime</to>
+      </copy>
+    </assign>
+    <invoke name="CreateTimeCard" partnerLink="FusionHCM" portType="ns2:CreateTimeCard"
+            operation="pushDataOnTOHCM" inputVariable="HCM_Req_Data" outputVariable="HCM_Res_Data"
+            bpelx:invokeAsDetail="no"/>
+    <if name="CheckStatus">
+      <condition>$HCM_Res_Data.parameters/return = 'E'</condition>
+      <sequence name="Sequence1">
+        <assign name="StatusTransform">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_1.xsl", $Receive1_receive_InputVariable.TB_TimeLogCollection)</from>
+            <to variable="StatusVariable" part="updateStatusInput_msg"/>
+          </copy>
+        </assign>
+        <invoke name="StatusUpdate" partnerLink="updateStatus" portType="ns4:updateStatus_ptt" operation="updateStatus"
+                inputVariable="StatusVariable" bpelx:invokeAsDetail="no"/>
+      </sequence>
+    </if>
+  </sequence>
+</process>

@@ -1,0 +1,27 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xsd:schema xmlns:ns0="http://HCM.Sobha.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://HCM.Sobha.com/">
+    <xsd:complexType name="ParseException">
+        <xsd:sequence>
+            <xsd:element name="errorOffset" type="xsd:int"/>
+            <xsd:element name="message" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="pushDataOnTOHCM">
+        <xsd:sequence>
+            <xsd:element name="reqID" type="xsd:int"/>
+            <xsd:element name="reqTime" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="inTime" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="outTime" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="personID" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="pushDataOnTOHCMResponse">
+        <xsd:sequence>
+            <xsd:element name="return" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="ParseException" type="ns0:ParseException"/>
+    <xsd:element name="pushDataOnTOHCM" type="ns0:pushDataOnTOHCM"/>
+    <xsd:element name="pushDataOnTOHCMResponse" type="ns0:pushDataOnTOHCMResponse"/>
+</xsd:schema>
+<!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.2.11-b150616.1732 svn-revision#a247ba216861f2c0baac9a3657c5690bce0c744d. -->

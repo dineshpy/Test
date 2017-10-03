@@ -1,0 +1,11 @@
+<adapter-config name="updateStatus" adapter="db" wsdlLocation="../WSDLs/updateStatus.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="bioMetricDB" location="eis/DB/bioMetricDB"/>
+  <endpoint-interaction portType="updateStatus_ptt" operation="updateStatus">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="UPDATE TB_TimeLog SET Flag='E' WHERE ID=#personID"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

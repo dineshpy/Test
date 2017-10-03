@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="updateStatus"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BioMetric/bioMetricTimeCard/updateStatus"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BioMetric/bioMetricTimeCard/updateStatus"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/updateStatus"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="updateStatus_plt" >
+    <plt:role name="updateStatus_role" >
+      <plt:portType name="tns:updateStatus_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/updateStatus" schemaLocation="../Schemas/updateStatus.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="updateStatusInput_msg">
+        <wsdl:part name="updateStatusInput_msg" element="db:updateStatusInput"/>
+    </wsdl:message>
+    <wsdl:portType name="updateStatus_ptt">
+        <wsdl:operation name="updateStatus">
+            <wsdl:input message="tns:updateStatusInput_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

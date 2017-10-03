@@ -1,0 +1,21 @@
+<adapter-config name="bioMetric" adapter="db" wsdlLocation="../WSDLs/bioMetric.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="bioMetricDB" location="eis/DB/bioMetricDB"/>
+  <endpoint-activation portType="bioMetric_ptt" operation="receive">
+    <activation-spec className="oracle.tip.adapter.db.DBActivationSpec">
+      <property name="DescriptorName" value="bioMetric.TB_TimeLog"/>
+      <property name="QueryName" value="bioMetricSelect"/>
+      <property name="MappingsMetaDataURL" value="bioMetric-or-mappings.xml"/>
+      <property name="PollingStrategy" value="LogicalDeletePollingStrategy"/>
+      <property name="MarkReadColumn" value="Flag"/>
+      <property name="MarkReadValue" value="P"/>
+      <property name="MarkUnreadValue" value="0"/>
+      <property name="PollingInterval" value="30"/>
+      <property name="MaxRaiseSize" value="1"/>
+      <property name="MaxTransactionSize" value="10"/>
+      <property name="NumberOfThreads" value="1"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

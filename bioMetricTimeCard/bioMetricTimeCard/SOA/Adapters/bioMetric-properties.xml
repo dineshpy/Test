@@ -1,0 +1,25 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+   <entry key="dbo.TB_TimeLog.ID:db_column_type">int identity</entry>
+   <entry key="dbo.TB_TimeLog.UserName:db_column_type">nvarchar(max)</entry>
+   <entry key="dbo.TB_TimeLog.UserName:db_column_not_null">false</entry>
+   <entry key="dbo.TB_TimeLog:db_column_5">ID</entry>
+   <entry key="dbo.TB_TimeLog:db_column_4">Flag</entry>
+   <entry key="dbo.TB_TimeLog.UserID:db_column_not_null">false</entry>
+   <entry key="dbo.TB_TimeLog:db_column_3">TimeOut</entry>
+   <entry key="dbo.TB_TimeLog.UserID:db_column_type">nvarchar(max)</entry>
+   <entry key="dbo.TB_TimeLog:db_column_2">TimeIn</entry>
+   <entry key="dbo.TB_TimeLog:db_column_1">UserName</entry>
+   <entry key="dbo.TB_TimeLog.TimeOut:db_column_type">nvarchar(max)</entry>
+   <entry key="dbo.TB_TimeLog:db_column_0">UserID</entry>
+   <entry key="dbo.TB_TimeLog.TimeIn:db_column_type">nvarchar(max)</entry>
+   <entry key="return_single_result_set">false</entry>
+   <entry key="dbo.TB_TimeLog.ID:db_column_not_null">true</entry>
+   <entry key="dbo.TB_TimeLog:db_table_type">TABLE</entry>
+   <entry key="dbo.TB_TimeLog.TimeOut:db_column_not_null">false</entry>
+   <entry key="root_descriptor_alias">dbo.TB_TimeLog</entry>
+   <entry key="dbo.TB_TimeLog.Flag:db_column_type">nvarchar(max)</entry>
+   <entry key="dbo.TB_TimeLog.Flag:db_column_not_null">false</entry>
+   <entry key="dbo.TB_TimeLog.TimeIn:db_column_not_null">false</entry>
+</properties>
